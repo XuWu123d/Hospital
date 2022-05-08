@@ -50,3 +50,6 @@ spring:
 #feign:
 #  sentinel:
 #    enabled=true: true
+logging:
+  lever:
+    root: DEBUG
