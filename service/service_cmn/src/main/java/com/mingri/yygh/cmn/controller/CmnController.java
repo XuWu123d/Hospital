@@ -31,12 +31,14 @@ public class CmnController {
     }
 
     //导出数据字典接口
+    @ApiOperation("导出数据字典接口")
     @GetMapping("/exportDict")
     public void exportDict(HttpServletResponse response) {
         cmnService.exportDictData(response);
     }
 
     //导入数据字典接口
+    @ApiOperation("导入数据字典接口")
     @PostMapping("/importDict")
     public Result importDict(MultipartFile file) {
         cmnService.importDictData(file);
@@ -45,6 +47,7 @@ public class CmnController {
 
 
     //根据value查询
+    @ApiOperation("根据value查询")
     @PostMapping("getName/{value}")
     public String selectByValue(@PathVariable String value) {
         return selectByDictcodeAndValue(" ",value);
@@ -59,5 +62,11 @@ public class CmnController {
         return cmn;
     }
 
-
+    //根据dictCode获取下级节点
+    @ApiOperation("根据dictCode获取下级节点")
+    @GetMapping("findByDictCode/{dictCode}")
+    public Result findByDictCode(@PathVariable String dictCode) {
+        List<Dict> dictList= cmnService.findByDictCode(dictCode);
+        return Result.ok(dictList);
+    }
 }

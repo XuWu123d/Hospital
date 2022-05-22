@@ -6,8 +6,10 @@ import com.mingri.yygh.cmn.mapper.CmnMapper;
 import com.mingri.yygh.model.cmn.Dict;
 import com.mingri.yygh.vo.cmn.DictEeVo;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
+/*
+数据字典导入监听器
+ */
 public class DictListener extends AnalysisEventListener<DictEeVo> {
     private CmnMapper cmnMapper;
 

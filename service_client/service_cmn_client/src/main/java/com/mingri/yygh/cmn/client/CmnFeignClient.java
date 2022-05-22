@@ -4,6 +4,7 @@ import com.mingri.yygh.common.result.Result;
 import com.mingri.yygh.model.cmn.Dict;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@FeignClient("service_cmn")
+@FeignClient("service-cmn")
+@Component
 public interface CmnFeignClient {
 //    //根据数据id查询子数据列表
 //    @ApiOperation("根据数据id查询子数据列表")

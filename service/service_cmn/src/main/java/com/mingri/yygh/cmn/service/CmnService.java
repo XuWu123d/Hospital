@@ -19,4 +19,7 @@ public interface CmnService extends IService<Dict> {
 
     //根据dictCode和value查询
     String getCmnName(String dictCode, String value);
+
+    //根据dictCode获取下级节点
+    List<Dict> findByDictCode(String dictCode);
 }

@@ -85,6 +85,7 @@ public class CmnServiceImpl extends ServiceImpl<CmnMapper, Dict> implements CmnS
         }
     }
 
+    //根据dictCode和value查询
     @Override
     public String getCmnName(String dictCode, String value) {
         Dict findDict;
@@ -93,16 +94,32 @@ public class CmnServiceImpl extends ServiceImpl<CmnMapper, Dict> implements CmnS
             queryWrapper.eq("value",value);
             findDict = baseMapper.selectOne(queryWrapper);
         } else {
-            QueryWrapper queryWrapper=new QueryWrapper();
-            queryWrapper.eq("dict_code",dictCode);
-            Dict dict = baseMapper.selectOne(queryWrapper);
-            Long id = dict.getId();
+            Long id = getDictIdByDictCode(dictCode);
             findDict= baseMapper.selectOne(new QueryWrapper<Dict>()
                 .eq("parent_id",id)
                 .eq("value",value));
 
         }
         return findDict.getName();
+    }
+
+    //根据dictCode获取dictId
+    private Long getDictIdByDictCode(String dictCode) {
+        QueryWrapper<Dict> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("dict_code",dictCode);
+        Dict dict = baseMapper.selectOne(queryWrapper);
+        Long id = dict.getId();
+        return id;
+    }
+
+    //根据dictCode获取下级节点
+    @Override
+    public List<Dict> findByDictCode(String dictCode) {
+        //根据dictCode获取id
+        Long id = getDictIdByDictCode(dictCode);
+        //根据id与parentId比较获取子数据
+        List<Dict> dicts = findChildData(id);
+        return dicts;
     }
 
 }
