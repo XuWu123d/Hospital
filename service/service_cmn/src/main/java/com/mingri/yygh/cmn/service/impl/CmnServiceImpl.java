@@ -9,6 +9,8 @@ import com.mingri.yygh.cmn.service.CmnService;
 import com.mingri.yygh.model.cmn.Dict;
 import com.mingri.yygh.vo.cmn.DictEeVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +24,7 @@ public class CmnServiceImpl extends ServiceImpl<CmnMapper, Dict> implements CmnS
 
     //根据数据id查询子类数据列表
     @Override
+    @Cacheable(value = "dict",keyGenerator = "keyGenerator") //dict+根据包名，类名，方法名生成key
     public List<Dict> findChildData(Long id) {
         QueryWrapper queryWrapper=new QueryWrapper();
         queryWrapper.eq("parent_id",id);
@@ -73,12 +76,33 @@ public class CmnServiceImpl extends ServiceImpl<CmnMapper, Dict> implements CmnS
 
     //导入数据字典接口
     @Override
+    @CacheEvict(value = "dict",allEntries = true) //true表明清空缓存中的内容
     public void importDictData(MultipartFile file) {
         try {
             EasyExcel.read(file.getInputStream(),DictEeVo.class,new DictListener(baseMapper)).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getCmnName(String dictCode, String value) {
+        Dict findDict;
+        if (dictCode==null) {
+            QueryWrapper queryWrapper=new QueryWrapper();
+            queryWrapper.eq("value",value);
+            findDict = baseMapper.selectOne(queryWrapper);
+        } else {
+            QueryWrapper queryWrapper=new QueryWrapper();
+            queryWrapper.eq("dict_code",dictCode);
+            Dict dict = baseMapper.selectOne(queryWrapper);
+            Long id = dict.getId();
+            findDict= baseMapper.selectOne(new QueryWrapper<Dict>()
+                .eq("parent_id",id)
+                .eq("value",value));
+
+        }
+        return findDict.getName();
     }
 
 }

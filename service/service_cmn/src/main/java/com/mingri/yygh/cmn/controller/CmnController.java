@@ -42,4 +42,22 @@ public class CmnController {
         cmnService.importDictData(file);
         return Result.ok();
     }
+
+
+    //根据value查询
+    @PostMapping("getName/{value}")
+    public String selectByValue(@PathVariable String value) {
+        return selectByDictcodeAndValue(" ",value);
+    }
+
+
+    //根据dictCode和value查询
+    @PostMapping("getName/{dictCode}/{value}")
+    public String selectByDictcodeAndValue(@PathVariable String dictCode,
+                                           @PathVariable String value) {
+        String cmn= cmnService.getCmnName(dictCode,value);
+        return cmn;
+    }
+
+
 }

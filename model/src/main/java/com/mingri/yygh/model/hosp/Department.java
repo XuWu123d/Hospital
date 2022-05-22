@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * <p>
- * Department
+ * Department 科室列表实体类
  * </p>
  *
  * @author qy

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * <p>
- * Hospital
+ * Hospital   医院管理实体类
  * </p>
  *
  * @author qy

@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * <p>
- * Schedule
+ * Schedule  排班实体类
  * </p>
  *
  * @author qy
