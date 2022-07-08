@@ -22,6 +22,7 @@
             <artifactId>joda-time</artifactId>
         </dependency>
 
+        <!--token依赖，jwt工具，用于对token信息的防伪作用-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>

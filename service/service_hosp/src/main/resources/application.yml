@@ -21,12 +21,12 @@ spring:
 #      port: 27017
 #      database: yygh_hosp
 #
-#  #rabbitmq地址
-#  rabbitmq:
-#    host: 127.0.0.1
-#    port: 5672
-#    username: guest
-#    password: guest
+  #rabbitmq地址
+  rabbitmq:
+    host: 192.168.128.128
+    port: 5672
+    username: guest
+    password: guest
 
   #返回json的全局时间模式
   jackson:
@@ -47,8 +47,8 @@ spring:
 #      transport:
 #        dashboard: http://127.0.0.1:8858
 
-#mybatis-plus:
-#  mapper-locations: classpath:com/mingri/yygh/mapper/xml/*.xml
+mybatis-plus:
+  mapper-locations: classpath:com/mingri/yygh/hosp/*.xml
 
 ##开启sentinel
 #feign:
@@ -57,3 +57,5 @@ spring:
 logging:
   lever:
     root: DEBUG
+
+

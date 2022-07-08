@@ -13,15 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+//hosp模块调用cmn模块
 @FeignClient("service-cmn")
 @Component
 public interface CmnFeignClient {
-//    //根据数据id查询子数据列表
-//    @ApiOperation("根据数据id查询子数据列表")
-//    @GetMapping("findChildData/{id}")
-//    public Result findChildData(@PathVariable Long id);
-
-
     //根据value查询
     @PostMapping("admin/cmn/dict/getName/{value}")
     public String selectByValue(@PathVariable("value") String value);

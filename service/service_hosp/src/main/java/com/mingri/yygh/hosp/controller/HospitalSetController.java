@@ -18,7 +18,7 @@ import java.util.Random;
 @Api(tags = "医院设置管理")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
-@CrossOrigin  //允许跨域访问
+//@CrossOrigin  //允许跨域访问
 public class HospitalSetController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class HospitalSetController {
     }
 
     //3 条件查询带分页
-    @CrossOrigin
+//    @CrossOrigin
     @ApiOperation(value = "条件查询带分页")
     @PostMapping("findPageHospSet/{current}/{limit}")
     public Result findPageHospital(@PathVariable long current, @PathVariable long limit,

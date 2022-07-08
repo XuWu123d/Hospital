@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface DepartmentRepository extends MongoRepository<Department,String> {
-
+    //根据医院编号和科室编号查询科室信息
     Department getDepartmentByHoscodeAndDepcode(String hoscode, String depcode);
 
 }

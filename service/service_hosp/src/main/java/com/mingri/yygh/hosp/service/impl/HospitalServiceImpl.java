@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class HospitalServiceImpl implements HospitalService {
@@ -73,17 +71,66 @@ public class HospitalServiceImpl implements HospitalService {
             this.setHospitalHosType(item);
         });
 
-//        cmnFeignClient.s
         return all;
     }
 
-    private void setHospitalHosType(Hospital hospital) {
+    //修改医院状态
+    @Override
+    public void updateStatus(String id, Integer status) {
+        Hospital hospital=hospitalRepository.findById(id).get();
+        hospital.setStatus(status);
+        hospital.setUpdateTime(new Date());
+        hospitalRepository.save(hospital);
+    }
+
+    //根据id获取预约挂号详情
+    @Override
+    public Map<String,Object> getHospitalDetailById(String id) {
+        Map<String,Object> map=new HashMap<>();
+        Hospital hospital = hospitalRepository.findById(id).get();
+        map.put("hospital",setHospitalHosType(hospital));
+        map.put("bookingRule",hospital.getBookingRule());
+        return map;
+    }
+
+    //根据医院编号获取医院名称
+    @Override
+    public String getHospName(String hoscode) {
+        Hospital hospital= hospitalRepository.getHospitalByHoscode(hoscode);
+        if (hospital!=null) {
+            return hospital.getHosname();
+        }
+        return null;
+    }
+
+
+    //根据医院名称查询
+    @Override
+    public List<Hospital> getByHosname(String hosname) {
+        List<Hospital> hospitals=hospitalRepository.getHospitalByHosnameLike(hosname);
+        return hospitals;
+    }
+
+    //根据医院编号获取预约挂号详情
+    @Override
+    public Map<String, Object> getHospitalDetailByHoscode(String hoscode) {
+        Map<String,Object> map=new HashMap<>();
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
+        map.put("hospital",setHospitalHosType(hospital));
+        map.put("bookingRule",hospital.getBookingRule());
+        return map;
+    }
+
+    private Hospital setHospitalHosType(Hospital hospital) {
+        //查询省 市  地区
         String provinceCode = cmnFeignClient.selectByValue(hospital.getProvinceCode());
         String cityCode = cmnFeignClient.selectByValue(hospital.getCityCode());
         String districtCode = cmnFeignClient.selectByValue(hospital.getDistrictCode());
+        //根据dictCode和value获取医院等级名称
         String hostype = cmnFeignClient.selectByDictcodeAndValue("Hostype", hospital.getHostype());
         hospital.getParam().put("fullAddress",provinceCode+cityCode+districtCode);
         hospital.getParam().put("hostype",hostype);
+        return hospital;
     }
 
 }

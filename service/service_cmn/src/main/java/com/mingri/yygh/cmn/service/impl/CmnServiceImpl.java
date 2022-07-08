@@ -88,17 +88,21 @@ public class CmnServiceImpl extends ServiceImpl<CmnMapper, Dict> implements CmnS
     //根据dictCode和value查询
     @Override
     public String getCmnName(String dictCode, String value) {
+        System.out.println(dictCode);
         Dict findDict;
-        if (dictCode==null) {
+        if (dictCode==null || dictCode==" ") {
+            System.out.println("空");
             QueryWrapper queryWrapper=new QueryWrapper();
             queryWrapper.eq("value",value);
             findDict = baseMapper.selectOne(queryWrapper);
+            System.out.println(findDict);
         } else {
+            System.out.println("有值");
             Long id = getDictIdByDictCode(dictCode);
             findDict= baseMapper.selectOne(new QueryWrapper<Dict>()
                 .eq("parent_id",id)
                 .eq("value",value));
-
+            System.out.println(findDict);
         }
         return findDict.getName();
     }

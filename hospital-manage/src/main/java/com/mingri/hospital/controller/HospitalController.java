@@ -49,8 +49,9 @@ public class HospitalController {
 			if(!HttpRequestHelper.isSignEquals(paramMap, apiService.getSignKey())) {
 				throw new YyghException(ResultCodeEnum.SIGN_ERROR);
 			}
-
+			System.out.println("paramMap"+paramMap);
 			Map<String, Object> resultMap = hospitalService.submitOrder(paramMap);
+			System.out.println(request);
 			return Result.ok(resultMap);
 		} catch (YyghException e) {
 			return Result.fail().message(e.getMessage());
